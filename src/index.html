@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Tracking system</title>
+<meta name="viewport" content="width=device-width,initial- scale=1">
+</head>
+<body>
+<div id="root">
+<header>Tracking System</header>
+<main>
+    <p>Transport</p>
+    <section class="table-transport">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Model</th>
+                    <th>Name(for ships)
+                        /licensePlate(for trucks)</th>
+                    <th>producedYear</th>
+                    <th>capacity(in pounds)</th>
+                    <th>averageSpeed</th>
+                    <th>countOfTeam(for ships)
+                        /typeOfGas(for trucks)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+    <p>Cost of delivery</p>
+    <section class="table-costs">
+        <table>
+            <thead>
+                <tr>
+                    <th>Transport Model</th>
+                    <th>Cost(by 1 kg of cargo)</th>
+                    <th>Cost(by 1 km of distance)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </section>
+    <div class="create-item">
+        <div class="button ship">Add new ship</div>
+        <div class="button track">Add new track</div>
+        <div class="button cost">Add cost of delivery</div>
+    </div>
+</main>
+<footer>© 2019 JS Band Delivery</footer>
+</div>
+<div class="create create-transport-ship">
+    <form action="">
+        <label>Id:</label>
+        <input type="text" name="ship-id" autofocus="" placeholder="Id" />
+
+        <label>Model:</label>
+        <input type="text" name="ship-model" autofocus="" placeholder="Model" />
+
+        <label>Name:</label>
+        <input type="text" name="ship-name" autofocus="" placeholder="Name" />
+
+        <label>ProducedYear:</label>
+        <input type="number" name="ship-producedYear" autofocus="" min="1" max="4" placeholder="ProducedYear" />
+
+        <label>Capacity:</label>
+        <input type="number" name="ship-capacity" autofocus="" placeholder="Capacity" />
+
+        <label>averageSpeed:</label>
+        <input type="number" name="ship-averageSpeed" autofocus="" placeholder="averageSpeed" />
+
+        <label>CountofTeam:</label>
+        <input type="number" name="ship-countOfTeam" autofocus="" placeholder="CountofTeam" />
+
+        <div class="buttons">
+            <div class="button cancel">Cancel</div>
+            <div type="submit" class="button save">Save</div>
+        </div>
+    </form>
+</div>
+
+<div class="create create-transport-track">
+    <form action="">
+        <label>Id:</label>
+        <input type="text" name="track-id" autofocus="" placeholder="Id" />
+
+        <label>Model:</label>
+        <input type="text" name="track-model" autofocus="" placeholder="Model" />
+
+        <label>licensePlate:</label>
+        <input type="text" name="track-licensePlate" autofocus="" placeholder="Name" />
+
+        <label>ProducedYear:</label>
+        <input type="number" name="track-producedYear" autofocus="" min="1" max="4" placeholder="ProducedYear" />
+
+        <label>Capacity:</label>
+        <input type="number" name="track-capacity" autofocus="" placeholder="Capacity" />
+
+        <label>averageSpeed:</label>
+        <input type="number" name="track-averageSpeed" autofocus="" placeholder="averageSpeed" />
+
+        <label>typeOfGas:</label>
+        <input type="text" name="track-typeOfGas" autofocus="" placeholder="typeOfGas" />
+
+        <div class="buttons">
+            <div class="button cancel">Cancel</div>
+            <div type="submit" class="button save">Save</div>
+        </div>
+    </form>
+</div>
+
+<div class="create create-cost-delivery">
+    <form>
+        <label>Transport Model:</label>
+        <input type="text" name="cost-model" autofocus="" placeholder="Transport Model" />
+
+        <label>Cost(by 1 kg of cargo):</label>
+        <input type="number" name="cost-cargo" autofocus="" placeholder="Cost(by 1 kg of cargo)" />
+
+        <label>Cost(by 1 km of distance):</label>
+        <input type="number" name="cost-dist" autofocus="" placeholder="Cost(by 1 km of distance)" />
+
+        <div class="buttons">
+            <div class="button cancel">Cancel</div>
+            <div class="button save">Save</div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
