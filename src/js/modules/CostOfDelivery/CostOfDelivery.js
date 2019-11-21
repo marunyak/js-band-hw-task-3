@@ -1,16 +1,16 @@
-import {cost_key}      from '../Global/Variables.js';
 import {local_storage} from '../LocalStorage/LocalStorage.js';
 
 class CostOfDelivery {
 
     setItem(formData) {
-        let list = local_storage.get(cost_key);
-        list.push(formData);
-        local_storage.save(list, cost_key);
+        let list = local_storage.get();
+        if (!list.costs) list['costs'] = [];
+        list.costs.push(formData);
+        local_storage.save(list);
     }
 
     getItem() {
-        return local_storage.get(cost_key);
+        return local_storage.get();
     }
 
 }

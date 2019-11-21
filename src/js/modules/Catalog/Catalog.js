@@ -1,6 +1,5 @@
-import {cost_key} from '../Global/Variables.js';
 import TransportFactory from '../Pattern/TransportFactory.js';
-import {local_storage} from '../LocalStorage/LocalStorage.js';
+import CostOfDelivery from '../CostOfDelivery/CostOfDelivery.js';
 
 class Catalog {
 
@@ -54,10 +53,10 @@ class Catalog {
             });
         }
 
-        let listCosts = local_storage.get(cost_key);
-
+        let listCosts = new CostOfDelivery().getItem();
+        listCosts = listCosts.costs || [];
         document.querySelector('.table-costs tbody').innerHTML = '';
-        if (listCosts) {
+        if (listCosts.length) {
             listCosts.forEach(({ model: model, cargo: cargo, dist: dist }) => new Catalog('.table-costs').add(model, cargo, dist));
         }
     }

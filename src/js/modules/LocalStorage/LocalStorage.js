@@ -1,5 +1,3 @@
-import {cost_key} from '../Global/Variables.js';
-
 class LocalStorage {
 
     constructor (){
@@ -7,17 +5,17 @@ class LocalStorage {
             return LocalStorage.instance;
         }
         LocalStorage.instance = this;
-        this.cost_key = cost_key;
+        let prefix = 'JS-Band-';
+        this.transport_key = prefix + 'Transport';
         return this;
     }
 
-    save(arr, name) {
-        localStorage.setItem(name, JSON.stringify(arr));
+    save(arr) {
+        localStorage.setItem(this.transport_key, JSON.stringify(arr));
     }
 
-    get(name) {
-        let a = name === this.cost_key?[]:{};
-        return JSON.parse(localStorage.getItem(name)) || a;
+    get() {
+        return JSON.parse(localStorage.getItem(this.transport_key)) || {};
     }
 }
 

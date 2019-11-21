@@ -1,4 +1,3 @@
-import {transport_key} from '../Global/Variables.js';
 import CostOfDelivery  from '../CostOfDelivery/CostOfDelivery.js';
 import {local_storage} from '../LocalStorage/LocalStorage.js';
 import Catalog         from './Catalog.js';
@@ -16,22 +15,22 @@ class Buttons {
         if (nameElement.classList.contains('create-transport-ship')) {
             const formData = Catalog.getDataFromForm('.create-transport-ship');
             if (Catalog.isEmpty(formData) || Catalog.isValue(formData)) return;
-            let list   = local_storage.get(transport_key);
+            let list   = local_storage.get();
 
             if (!list.ships) list['ships'] = [];
             list.ships.push(formData);
-            local_storage.save(list, transport_key);
+            local_storage.save(list);
 
             Catalog.render();
         }
         else if (nameElement.classList.contains('create-transport-track')) {
             const formData = Catalog.getDataFromForm('.create-transport-track');
             if (Catalog.isEmpty(formData) || Catalog.isValue(formData)) return;
-            let list   = local_storage.get(transport_key);
+            let list   = local_storage.get();
 
             if (!list.tracks) list['tracks'] = [];
             list.tracks.push(formData);
-            local_storage.save(list, transport_key);
+            local_storage.save(list);
 
             Catalog.render();
         }

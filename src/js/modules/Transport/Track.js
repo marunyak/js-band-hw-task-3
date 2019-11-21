@@ -1,4 +1,3 @@
-import {transport_key} from '../Global/Variables.js';
 import Transport from '../Transport/Transport.js';
 import {local_storage} from '../LocalStorage/LocalStorage.js';
 
@@ -7,7 +6,7 @@ class Track extends Transport {
     constructor(id = '') {
         super(id);
         if (id) {
-            this.result = local_storage.get(transport_key);
+            this.result = local_storage.get();
             this.result = this.result.tracks.find((item) => item.id === this.id);
             let { idd, model, licensePlate, producedYear, capacity, averageSpeed, typeOfGas } = this.result;
             this.model = model;
@@ -25,7 +24,7 @@ class Track extends Transport {
 
     getTruckIdsCallback(callback) {
         setTimeout(() => {
-            let listTransport = local_storage.get(transport_key);
+            let listTransport = local_storage.get();
             if (listTransport.tracks) {
                 listTransport = listTransport.tracks.map((item) => item.id);
             } else listTransport = [];
@@ -46,7 +45,7 @@ class Track extends Transport {
                 return callback(undefined, "Internal error");
             }
 
-            const listTransport = local_storage.get(transport_key);
+            const listTransport = local_storage.get();
             const {idd,
                    model,
                    licensePlate,
