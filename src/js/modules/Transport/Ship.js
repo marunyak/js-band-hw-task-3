@@ -1,14 +1,13 @@
 import Transport from '../Transport/Transport.js';
-import {local_storage} from '../LocalStorage/LocalStorage.js';
+import { storage } from '../LocalStorage/LocalStorage.js';
 
 class Ship extends Transport {
 
-    constructor(id) {
-        super(id);
-        if (id) {
-            this.result = local_storage.get();
-            this.result = this.result.ships.find((item) => item.id === this.id);
-            let { iddd, model, name, producedYear, capacity, averageSpeed, countOfTeam } = this.result;
+    constructor(obj = '') {
+        super();
+        if (obj !== '') {
+            const { id, model, name, producedYear, capacity, averageSpeed, countOfTeam } = obj;
+            this.id = id;
             this.model = model;
             this.name = name;
             this.producedYear = producedYear;
@@ -18,14 +17,32 @@ class Ship extends Transport {
         }
     }
 
-    showAvarageSpeed() {
-        return this.avarageSpeed;
+    showName() {
+        return this.name;
+    }
+
+    showCountOfTeam() {
+        return this.countOfTeam;
+    }
+
+    addShipToStorage(formData) {
+        let list = storage.get();
+        if (!list.ships) list.ships = [];
+        list.ships.push(formData);
+        storage.save(list);
     }
 
     getShipList() {
-        let listTransport = local_storage.get();
+        const listTransport = storage.get();
         return listTransport.ships || [];
     }
+
+    addShipInCatalog(...args) {
+        const itemCatalog = args.map((item) => `<td>${item}</td>`);
+        const item = `<tr>${itemCatalog.join('')}</tr>`;
+        document.querySelector('.table-transport tbody').innerHTML += item;
+    }
+
 }
 
 export default Ship;

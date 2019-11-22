@@ -1,11 +1,11 @@
 class LocalStorage {
 
-    constructor (){
+    constructor() {
         if (typeof LocalStorage.instance === 'object') {
             return LocalStorage.instance;
         }
         LocalStorage.instance = this;
-        let prefix = 'JS-Band-';
+        const prefix = 'JS-Band-';
         this.transport_key = prefix + 'Transport';
         return this;
     }
@@ -19,6 +19,6 @@ class LocalStorage {
     }
 }
 
-const local_storage = new LocalStorage();
+const storage = new LocalStorage();
 
-export  {local_storage};
+export  {storage};

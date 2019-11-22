@@ -122,16 +122,16 @@ tr:last-child th:last-child {
 }
 
 
-.create-transport-track, .create-transport-ship, .create-cost-delivery {
+.create-transport-truck, .create-transport-ship, .create-cost-delivery {
     display: none;
 }
 
-.create-transport-ship label, .create-transport-track label, .create-cost-delivery label {
+.create-transport-ship label, .create-transport-truck label, .create-cost-delivery label {
     display: block;
     margin: 9px 0;
 }
 
-.create-transport-ship.show, .create-transport-track.show, .create-cost-delivery.show {
+.create-transport-ship.show, .create-transport-truck.show, .create-cost-delivery.show {
     display: block;
     position: absolute;
     margin: auto;
@@ -154,7 +154,7 @@ tr:last-child th:last-child {
     max-height: 350px;
 }
 
-input[name="ship-countOfTeam"], input[name="track-typeOfGas"], input[name="cost-dist"]  {
+input[name="ship-countOfTeam"], input[name="truck-typeOfGas"], input[name="cost-dist"]  {
     margin-bottom: 20px;
 }
 
@@ -182,7 +182,7 @@ input[name="ship-countOfTeam"], input[name="track-typeOfGas"], input[name="cost-
     cursor: pointer;
 }
 
-.button.track {
+.button.truck {
     background-color: #921bff;
 }
 

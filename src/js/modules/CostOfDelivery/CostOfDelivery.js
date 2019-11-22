@@ -1,17 +1,22 @@
-import {local_storage} from '../LocalStorage/LocalStorage.js';
+import {storage} from '../LocalStorage/LocalStorage.js';
 
 class CostOfDelivery {
 
     setItem(formData) {
-        let list = local_storage.get();
-        if (!list.costs) list['costs'] = [];
+        let list = storage.get();
+        if (!list.costs) list.costs = [];
         list.costs.push(formData);
-        local_storage.save(list);
+        storage.save(list);
     }
 
     getItem() {
-        return local_storage.get();
+        return storage.get();
     }
 
+    addCostInCatalog(...args) {
+        const itemCatalog = args.map((item) => `<td>${item}</td>`);
+        const item = `<tr>${itemCatalog.join('')}</tr>`;
+        document.querySelector('.table-costs tbody').innerHTML += item;
+    }
 }
 export default CostOfDelivery;

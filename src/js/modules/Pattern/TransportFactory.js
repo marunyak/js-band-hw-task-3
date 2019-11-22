@@ -1,14 +1,14 @@
 import Ship  from '../Transport/Ship.js';
-import Track from '../Transport/Track.js';
+import Truck from '../Transport/Truck.js';
 
 class TransportFactory {
-    create(type) {
+    create(type, args = '') {
         if (type === 'Ship') {
-            return new Ship();
+            return new Ship(args);
         }
 
-        if (type === 'Track') {
-            return new Track();
+        if (type === 'Truck') {
+            return new Truck(args);
         }
     }
 }

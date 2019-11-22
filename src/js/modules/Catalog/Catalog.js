@@ -1,103 +1,104 @@
 import TransportFactory from '../Pattern/TransportFactory.js';
 import CostOfDelivery from '../CostOfDelivery/CostOfDelivery.js';
+import Form from '../Form/Form.js';
 
 class Catalog {
 
-    constructor(to) {
-        this.to = to;
-    }
-
-    // Add in Catalog rows
-
-    add(...args) {
-        let itemCatalog = args.map((item) => `<td>${item}</td>`);
-        let item = `<tr>${itemCatalog.join('')}</tr>`;
-        document.querySelector(`${this.to} tbody`).innerHTML += item;
-    }
-
-    // Render tabels
-
     static render() {
         const tableTransport = document.querySelector('.table-transport tbody');
-        tableTransport.innerHTML = '';
+        const tableCosts = document.querySelector('.table-costs tbody');
         const factoryTransport = new TransportFactory();
-        const trackk  = factoryTransport.create('Track');
-        const tracks = trackk.getTruckListAsynAwait();
+        const createTruck = factoryTransport.create('Truck');
+        const trucks = createTruck.getTruckListAsynAwait();
+        const createShip = factoryTransport.create('Ship');
+        const ships = createShip.getShipList();
+        let listCosts = new CostOfDelivery().getItem();
 
-        tracks.then((result) => {
-            if (result) {
-                setTimeout(() => {
-                    tableTransport.innerHTML += '<tr><td class="table-center" colspan="7">Tracks</td></tr>';
-                    result.forEach((item) => {
-                        if (item === "Internal error") {
-                            tableTransport.innerHTML += '<tr><td class="table-center" colspan="7">Internal error</td></tr>';
-                        } else {
-                            catalog.add(item.id , item.model, item.licensePlate, item.producedYear, trackk.showCapacityInPounds(item.capacity), item.averageSpeed, item.typeOfGas);
-                        }
-                    });
-                },1000)
-            }
-            })
-            .catch((error) => {
-                tableTransport.innerHTML += '<tr><td class="table-center" colspan="7">Tracks</td></tr><tr><td class="table-center" colspan="7">No Items</td></tr>';
-            });
+        listCosts = listCosts.costs || [];
+        tableTransport.innerHTML = '';
+        tableCosts.innerHTML = '';
 
-        const shipp   = factoryTransport.create('Ship');
-        const ships   = shipp.getShipList();
-        const catalog = new Catalog('.table-transport');
+        trucks.then((result) => {
+                if (result !== '') {
+                    setTimeout(() => {
+                        tableTransport.innerHTML += '<tr><td class="table-center" colspan="7">Trucks</td></tr>';
+                        result.forEach((item) => {
+                            if (item === 'Internal error') {
+                                tableTransport.innerHTML += '<tr><td class="table-center" colspan="7">Internal error</td></tr>';
+                            } else {
+                                const truck = new TransportFactory().create('Truck', item);
+                                truck.addTruckInCatalog(truck.showId(),
+                                                        truck.showModel(),
+                                                        truck.showLicensePlate(),
+                                                        truck.showProducedYear(),
+                                                        truck.showCapacityInPounds(),
+                                                        truck.showAvarageSpeed(),
+                                                        truck.showTypeOfGas())
+                            }
+                        });
+                    }, 1000);
+                }
+                })
+              .catch((error) => {
+                    tableTransport.innerHTML += '<tr><td class="table-center" colspan="7">Trucks</td></tr><tr><td class="table-center" colspan="7">No Items</td></tr>';
+               });
 
-        if (ships.length) {
+        if (ships.length > 0) {
             tableTransport.innerHTML += '<tr><td class="table-center" colspan="7">Ships</td></tr>';
             ships.forEach((item) => {
-                catalog.add(item.id, item.model, item.name, item.producedYear, shipp.showCapacityInPounds(item.capacity), item.averageSpeed, item.countOfTeam);
+                const ship = new TransportFactory().create('Ship', item);
+                ship.addShipInCatalog(ship.showId(),
+                                      ship.showModel(),
+                                      ship.showName(),
+                                      ship.showProducedYear(),
+                                      ship.showCapacityInPounds(),
+                                      ship.showAvarageSpeed(),
+                                      ship.showCountOfTeam());
             });
         }
 
-        let listCosts = new CostOfDelivery().getItem();
-        listCosts = listCosts.costs || [];
-        document.querySelector('.table-costs tbody').innerHTML = '';
-        if (listCosts.length) {
-            listCosts.forEach(({ model: model, cargo: cargo, dist: dist }) => new Catalog('.table-costs').add(model, cargo, dist));
+        if (listCosts.length > 0) {
+            listCosts.forEach(({ model, cargo, dist }) => new CostOfDelivery().addCostInCatalog(model, cargo, dist));
         }
     }
 
-    // Check info in inputs
+    saveInCatalog(elem) {
+        const element = elem.parentElement
+                            .parentElement
+                            .parentElement;
+        const ship = 'create-transport-ship';
+        const truck = 'create-transport-truck';
+        const cost = 'create-cost-delivery';
+
+        if (element.classList.contains(ship)) {
+            const newShip =  new TransportFactory().create('Ship');
+            const formData = Catalog.getDataFromForm('.' + ship);
+            if (Form.isEmpty(formData) || Form.isValueSet(formData)) return;
+            newShip.addShipToStorage(formData);
+        } else if (element.classList.contains(truck)) {
+            const newTruck =  new TransportFactory().create('Truck');
+            const formData  = Catalog.getDataFromForm('.' + truck);
+            if (Form.isEmpty(formData) || Form.isValueSet(formData)) return;
+            newTruck.addTruckToStorage(formData);
+        } else if (element.classList.contains(cost)) {
+            const formData  = Catalog.getDataFromForm('.' + cost);
+            if (Form.isEmpty(formData) || Form.isValueSet(formData)) return;
+            new CostOfDelivery().setItem(formData);
+        }
+        Catalog.render();
+    }
 
     static getDataFromForm(formSelector) {
         const inputs = document.querySelectorAll(formSelector + ' input');
         const formData = {};
-        inputs.forEach((el) => {
-            const name = el.name.split('-')[1];
-            const val  = el.value.replace(/(<([^>]+)>)/ig,'');
-            formData[name] = val;
+
+        inputs.forEach((item) => {
+            const name = item.name.split('-')[1];
+            const value = item.value.replace(/(<([^>]+)>)/ig, '');
+            formData[name] = value;
         })
-        Catalog.resetForm(formSelector);
-
+        Form.resetForm(formSelector);
         return formData;
-    }
-
-    // Reset values in form
-
-    static resetForm(formSelector) {
-        document.querySelectorAll(formSelector+' input').forEach((item) => item.value = null);
-    }
-
-    // Check if object is empty or not
-
-    static isEmpty(obj) {
-        for (let key in obj) {
-          return false;
-        }
-        return true;
-    }
-
-    // Check if object values are empty or not
-
-    static isValue(obj) {
-        for (let key in obj) {
-            if (obj[key] === '' || obj[key] === null) return true;
-        }
-        return false;
     }
 }
 export default Catalog;

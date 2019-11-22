@@ -1,9 +1,5 @@
 class Transport {
 
-    constructor(id) {
-        this.id = id;
-    }
-
     showId() {
         return this.id;
     }
@@ -17,12 +13,11 @@ class Transport {
     }
 
     showAvarageSpeed() {
-        return this.avarageSpeed;
+        return this.averageSpeed;
     }
 
-    showCapacityInPounds(kg = '') {
-        return kg?(kg * 2.2).toFixed(1):(this.capacity * 2.2).toFixed(1);
+    showCapacityInPounds() {
+        return (this.capacity * 2.2).toFixed(1);
     }
 }
-
 export default Transport;
